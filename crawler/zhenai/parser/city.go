@@ -8,7 +8,7 @@ import (
 const cityRe = `<a href="(http://album.zhenai.com/u/[0-9]+)"[^>]*>([^<]+)</a>`
 
 func ParseCity(contents []byte) engine.ParseResult {
-	re := regexp.MustCompile(cityListRe)
+	re := regexp.MustCompile(cityRe)
 	matches := re.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
