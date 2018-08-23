@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"golang-demos/crawler/model"
+	"golang-demos/crawler-multi-thread/model"
 	"io/ioutil"
 	"testing"
 )

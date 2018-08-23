@@ -1,12 +1,13 @@
 package parser
 
 import (
-	"golang-demos/crawler/engine"
+	"golang-demos/crawler-multi-thread/engine"
 	"regexp"
 )
 
 const cityRe = `<a href="(http://album.zhenai.com/u/[0-9]+)"[^>]*>([^<]+)</a>`
 
+// ParseCity parser
 func ParseCity(contents []byte) engine.ParseResult {
 	re := regexp.MustCompile(cityRe)
 	matches := re.FindAllSubmatch(contents, -1)
@@ -16,7 +17,7 @@ func ParseCity(contents []byte) engine.ParseResult {
 		name := string(m[2])
 		result.Items = append(result.Items, "User "+name)
 		result.Requests = append(result.Requests, engine.Request{
-			Url: string(m[1]),
+			URL: string(m[1]),
 			ParserFunc: func(c []byte) engine.ParseResult {
 				return ParseProfile(c, name)
 			},

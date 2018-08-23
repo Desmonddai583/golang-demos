@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"golang-demos/crawler/engine"
-	"golang-demos/crawler/model"
+	"golang-demos/crawler-multi-thread/engine"
+	"golang-demos/crawler-multi-thread/model"
 	"regexp"
 	"strconv"
 )
@@ -33,9 +33,10 @@ var carRe = regexp.MustCompile(
 	`<td><span class="label">是否购车：</span><span field="">([^<]+)</span></td>`)
 var guessRe = regexp.MustCompile(
 	`<a class="exp-user-name"[^>]*href="(http://album.zhenai.com/u/[\d]+)">([^<]+)</a>`)
-var idUrlRe = regexp.MustCompile(
+var idURLRe = regexp.MustCompile(
 	`http://album.zhenai.com/u/([\d]+)`)
 
+// ParseProfile parser
 func ParseProfile(contents []byte, name string) engine.ParseResult {
 	profile := model.Profile{}
 	profile.Name = name
@@ -90,7 +91,6 @@ func extractString(
 
 	if len(match) >= 2 {
 		return string(match[1])
-	} else {
-		return ""
 	}
+	return ""
 }

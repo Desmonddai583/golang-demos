@@ -1,12 +1,15 @@
 package engine
 
 import (
-	"golang-demos/crawler/fetcher"
+	"golang-demos/crawler-multi-thread/fetcher"
 	"log"
 )
 
+// SimpleEngine struct
+type SimpleEngine struct{}
+
 // Run fetch and parse flow
-func Run(seeds ...Request) {
+func (e SimpleEngine) Run(seeds ...Request) {
 	var requests []Request
 	for _, r := range seeds {
 		requests = append(requests, r)
