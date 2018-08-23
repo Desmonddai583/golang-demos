@@ -14,5 +14,5 @@ func (s *SimpleScheduler) ConfigureMasterWorkerChan(c chan engine.Request) {
 
 // Submit submit a request to worker channel
 func (s *SimpleScheduler) Submit(r engine.Request) {
-	s.workerChan <- r
+	go func() { s.workerChan <- r }()
 }
