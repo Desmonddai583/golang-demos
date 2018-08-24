@@ -10,7 +10,8 @@ func ItemSaver() chan interface{} {
 		itemCount := 0
 		for {
 			item := <-out
-			log.Printf("Item Saver save ")
+			log.Printf("Item Saver: got item "+
+				"#%d: %v", itemCount, item)
 		}
 	}()
 	return out
