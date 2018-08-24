@@ -4,12 +4,14 @@ import (
 	"golang-demos/crawler-multi-thread/engine"
 	"golang-demos/crawler-multi-thread/scheduler"
 	"golang-demos/crawler-multi-thread/zhenai/parser"
+	"golang-demos/crawler-multi-thread/persist"
 )
 
 func main() {
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 100,
+		ItemChan: persist.ItemSaver()
 	}
 
 	e.Run(engine.Request{

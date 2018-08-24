@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"golang-demos/crawler-multi-thread/model"
 	"log"
 )
 
@@ -9,6 +8,7 @@ import (
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
+	ItemChan    chan interface{}
 }
 
 // Scheduler interface
@@ -42,14 +42,11 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		e.Scheduler.Submit(r)
 	}
 
-	profileCount := 0
+	itemCount := 0
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			if _, ok := item.(model.Profile); ok {
-				log.Printf("Got profile #%d: %v", profileCount, item)
-				profileCount++
-			}
+			go func() { e.itemChan <- item }()
 		}
 
 		for _, request := range result.Requests {
