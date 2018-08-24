@@ -32,7 +32,7 @@ func (e SimpleEngine) Run(seeds ...Request) {
 }
 
 func worker(r Request) (ParseResult, error) {
-	log.Printf("Fetching %s", r.URL)
+	// log.Printf("Fetching %s", r.URL)
 	body, err := fetcher.Fetch(r.URL)
 	if err != nil {
 		log.Printf("Fecher: error"+
