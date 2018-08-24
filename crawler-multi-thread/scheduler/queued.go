@@ -8,6 +8,11 @@ type QueuedScheduler struct {
 	workerChan  chan chan engine.Request
 }
 
+// WorkerChan create a worker chan
+func (s *QueuedScheduler) WorkerChan() chan engine.Request {
+	return make(chan engine.Request)
+}
+
 // Submit submit a request to worker channel
 func (s *QueuedScheduler) Submit(r engine.Request) {
 	s.requestChan <- r
@@ -16,11 +21,6 @@ func (s *QueuedScheduler) Submit(r engine.Request) {
 // WorkerReady inform a worker is ready
 func (s *QueuedScheduler) WorkerReady(w chan engine.Request) {
 	s.workerChan <- w
-}
-
-// ConfigureMasterWorkerChan set channel to master worker
-func (s *QueuedScheduler) ConfigureMasterWorkerChan(c chan engine.Request) {
-	panic("implement me")
 }
 
 // Run assign request to worker
