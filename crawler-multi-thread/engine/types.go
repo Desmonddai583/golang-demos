@@ -12,6 +12,13 @@ type ParseResult struct {
 	Items    []interface{}
 }
 
+// Item interface
+type Item struct {
+	URL     string
+	ID      string
+	Payload interface{}
+}
+
 // NilParser for default parse logic
 func NilParser([]byte) ParseResult {
 	return ParseResult{}
