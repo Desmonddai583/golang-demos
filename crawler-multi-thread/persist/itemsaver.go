@@ -3,7 +3,6 @@ package persist
 import (
 	"context"
 	"log"
-	"os"
 
 	elastic "gopkg.in/olivere/elastic.v5"
 )
@@ -31,8 +30,7 @@ func ItemSaver() chan interface{} {
 func save(item interface{}) (id string, err error) {
 	client, err := elastic.NewClient(
 		// Must turn off sniff when run elasticsearch in docker
-		elastic.SetSniff(false),
-		elastic.SetTraceLog(log.New(os.Stdout, "", 0)))
+		elastic.SetSniff(false))
 
 	if err != nil {
 		return "", err
