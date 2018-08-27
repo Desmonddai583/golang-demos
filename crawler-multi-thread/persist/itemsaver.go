@@ -1,7 +1,11 @@
 package persist
 
 import (
+	"context"
 	"log"
+	"os"
+
+	elastic "gopkg.in/olivere/elastic.v5"
 )
 
 // ItemSaver persist items
@@ -14,7 +18,35 @@ func ItemSaver() chan interface{} {
 			log.Printf("Item Saver: got item "+
 				"#%d: %v", itemCount, item)
 			itemCount++
+
+			_, err := save(item)
+			if err != nil {
+				log.Printf("Item Saver: error saving item %v: %v", item, err)
+			}
 		}
 	}()
 	return out
+}
+
+func save(item interface{}) (id string, err error) {
+	client, err := elastic.NewClient(
+		// Must turn off sniff when run elasticsearch in docker
+		elastic.SetSniff(false),
+		elastic.SetTraceLog(log.New(os.Stdout, "", 0)))
+
+	if err != nil {
+		return "", err
+	}
+
+	resp, err := client.Index().
+		Index("dating_profile").
+		Type("zhenai").
+		BodyJson(item).
+		Do(context.Background())
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.Id, nil
 }
