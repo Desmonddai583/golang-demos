@@ -4,6 +4,7 @@ import (
 	"log"
 )
 
+// ItemSaver persist items
 func ItemSaver() chan interface{} {
 	out := make(chan interface{})
 	go func() {
@@ -12,6 +13,7 @@ func ItemSaver() chan interface{} {
 			item := <-out
 			log.Printf("Item Saver: got item "+
 				"#%d: %v", itemCount, item)
+			itemCount++
 		}
 	}()
 	return out

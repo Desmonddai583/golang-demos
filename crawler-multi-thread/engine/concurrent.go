@@ -42,11 +42,10 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		e.Scheduler.Submit(r)
 	}
 
-	itemCount := 0
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			go func() { e.itemChan <- item }()
+			go func(item interface{}) { e.ItemChan <- item }(item)
 		}
 
 		for _, request := range result.Requests {
