@@ -13,17 +13,16 @@ var (
 )
 
 // ParseCity parser
-func ParseCity(contents []byte) engine.ParseResult {
+func ParseCity(contents []byte, _ string) engine.ParseResult {
 	matches := profileRe.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
 	for _, m := range matches {
 		name := string(m[2])
+		url := string(m[1])
 		result.Requests = append(result.Requests, engine.Request{
-			URL: string(m[1]),
-			ParserFunc: func(c []byte) engine.ParseResult {
-				return ParseProfile(c, name)
-			},
+			URL:        url,
+			ParserFunc: ProfileParser(name),
 		})
 	}
 
