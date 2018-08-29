@@ -10,11 +10,12 @@ import (
 
 	"regexp"
 
+	"golang-demos/crawler-multi-thread/config"
+	"golang-demos/crawler-multi-thread/engine"
+	"golang-demos/crawler-multi-thread/frontend/model"
+	"golang-demos/crawler-multi-thread/frontend/view"
+
 	"gopkg.in/olivere/elastic.v5"
-	"imooc.com/ccmouse/learngo/crawler/config"
-	"imooc.com/ccmouse/learngo/crawler/engine"
-	"imooc.com/ccmouse/learngo/crawler/frontend/model"
-	"imooc.com/ccmouse/learngo/crawler/frontend/view"
 )
 
 type SearchResultHandler struct {

@@ -3,15 +3,15 @@ package main
 import (
 	"net/http"
 
-	"imooc.com/ccmouse/learngo/crawler/frontend/controller"
+	"golang-demos/crawler-multi-thread/frontend/controller"
 )
 
 func main() {
 	http.Handle("/", http.FileServer(
-		http.Dir("crawler/frontend/view")))
+		http.Dir("view")))
 	http.Handle("/search",
 		controller.CreateSearchResultHandler(
-			"crawler/frontend/view/template.html"))
+			"view/template.html"))
 	err := http.ListenAndServe(":8888", nil)
 	if err != nil {
 		panic(err)

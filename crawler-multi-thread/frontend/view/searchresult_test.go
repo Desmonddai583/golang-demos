@@ -4,9 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"imooc.com/ccmouse/learngo/crawler/engine"
-	"imooc.com/ccmouse/learngo/crawler/frontend/model"
-	common "imooc.com/ccmouse/learngo/crawler/model"
+	"golang-demos/crawler-multi-thread/engine"
+	"golang-demos/crawler-multi-thread/frontend/model"
+	common "golang-demos/crawler-multi-thread/model"
 )
 
 func TestSearchResultView_Render(t *testing.T) {
@@ -22,9 +22,9 @@ func TestSearchResultView_Render(t *testing.T) {
 	page := model.SearchResult{}
 	page.Hits = 123
 	item := engine.Item{
-		Url:  "http://album.zhenai.com/u/108906739",
+		URL:  "http://album.zhenai.com/u/108906739",
 		Type: "zhenai",
-		Id:   "108906739",
+		ID:   "108906739",
 		Payload: common.Profile{
 			Age:        34,
 			Height:     162,

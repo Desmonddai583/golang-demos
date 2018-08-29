@@ -4,13 +4,15 @@ import (
 	"html/template"
 	"io"
 
-	"imooc.com/ccmouse/learngo/crawler/frontend/model"
+	"golang-demos/crawler-multi-thread/frontend/model"
 )
 
+// SearchResultView struct
 type SearchResultView struct {
 	template *template.Template
 }
 
+// CreateSearchResultView create a search result view
 func CreateSearchResultView(
 	filename string) SearchResultView {
 	return SearchResultView{
@@ -19,6 +21,7 @@ func CreateSearchResultView(
 	}
 }
 
+// Render render the template
 func (s SearchResultView) Render(
 	w io.Writer, data model.SearchResult) error {
 	return s.template.Execute(w, data)
