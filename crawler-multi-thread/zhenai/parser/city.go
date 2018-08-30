@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"golang-demos/crawler-multi-thread/config"
 	"golang-demos/crawler-multi-thread/engine"
 	"regexp"
 )
@@ -21,8 +22,8 @@ func ParseCity(contents []byte, _ string) engine.ParseResult {
 		name := string(m[2])
 		url := string(m[1])
 		result.Requests = append(result.Requests, engine.Request{
-			URL:        url,
-			ParserFunc: ProfileParser(name),
+			URL:    url,
+			Parser: NewProfileParser(name),
 		})
 	}
 
@@ -30,8 +31,8 @@ func ParseCity(contents []byte, _ string) engine.ParseResult {
 	for _, m := range matches {
 		result.Requests = append(result.Requests,
 			engine.Request{
-				URL:        string(m[1]),
-				ParserFunc: ParseCity,
+				URL:    string(m[1]),
+				Parser: engine.NewFuncParser(ParseCity, config.ParseCity),
 			})
 	}
 

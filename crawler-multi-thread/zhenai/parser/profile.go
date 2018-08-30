@@ -37,7 +37,7 @@ var idURLRe = regexp.MustCompile(
 	`http://album.zhenai.com/u/([\d]+)`)
 
 // ParseProfile parser
-func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
+func parseProfile(contents []byte, url string, name string) engine.ParseResult {
 	profile := model.Profile{}
 	profile.Name = name
 
@@ -95,8 +95,8 @@ func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
 		url := string(m[1])
 		result.Requests = append(result.Requests,
 			engine.Request{
-				URL:        url,
-				ParserFunc: ProfileParser(name),
+				URL:    url,
+				Parser: NewProfileParser(name),
 			})
 	}
 
@@ -113,9 +113,23 @@ func extractString(
 	return ""
 }
 
-// ProfileParser return a parse func
-func ProfileParser(name string) engine.ParserFunc {
-	return func(c []byte, url string) engine.ParseResult {
-		return ParseProfile(c, url, name)
+// ProfileParser struct
+type ProfileParser struct {
+	userName string
+}
+
+func NewProfileParser(name string) *ProfileParser {
+	return &ProfileParser{
+		userName: name,
 	}
+}
+
+// Parse FuncParser
+func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
+	return parseProfile(contents, url, p.userName)
+}
+
+// Serialize FuncParser
+func (p *ProfileParser) Serialize() (name string, args interface{}) {
+	return "ProfileParser", p.userName
 }

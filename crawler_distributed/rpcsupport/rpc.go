@@ -1,8 +1,6 @@
 package rpcsupport
 
 import (
-	"fmt"
-	"golang-demos/crawler_distributed/config"
 	"log"
 	"net"
 	"net/rpc"
@@ -31,7 +29,7 @@ func ServeRPC(host string, service interface{}) error {
 
 // NewClient create a new client
 func NewClient(host string) (*rpc.Client, error) {
-	conn, err := net.Dial("tcp", fmt.Sprintf(":%d", config.ItemSaverPort))
+	conn, err := net.Dial("tcp", host)
 	if err != nil {
 		return nil, err
 	}
