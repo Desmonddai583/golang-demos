@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"golang-demos/crawler-multi-thread/config"
 	"golang-demos/crawler-multi-thread/engine"
 	"golang-demos/crawler-multi-thread/model"
 	"regexp"
@@ -131,5 +132,5 @@ func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
 
 // Serialize FuncParser
 func (p *ProfileParser) Serialize() (name string, args interface{}) {
-	return "ProfileParser", p.userName
+	return config.ParseProfile, p.userName
 }
