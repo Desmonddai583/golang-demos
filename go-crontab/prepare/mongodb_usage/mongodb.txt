@@ -1,0 +1,10 @@
+mongodb-sharding-infra
+    mongos作为代理,路由请求到特定shard
+    3个mongod节点组成config server, 保存数据元信息
+    每个shard是一个replica set, 可以无限扩容
+
+mongodb-collection-sharding
+    collection自动分裂成多个chunk
+    每个chunk被自动负载均衡到不同的shard(每个shard就是一个replication set)
+    每个shard可以保证其上的chunk高可用
+    分片到不同shard的collection性能会更高,因为有更多的replication set提供服务
