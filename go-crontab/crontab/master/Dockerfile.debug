@@ -1,0 +1,6 @@
+FROM base:latest
+RUN apk --update add --no-cache git gcc musl-dev \
+    && go get github.com/derekparker/delve/cmd/dlv \
+    && go build -o /crontab_master ./master/main/master.go
+WORKDIR /go/src/golang-demos/go-crontab/crontab/master/main
+EXPOSE 2345

@@ -1,0 +1,14 @@
+version: '2.1'
+
+services:
+  master:
+    image: crontab-master-debug 
+    container_name: crontab-master-debug
+    build:
+      context: ../master
+      dockerfile: Dockerfile.debug
+    ports:
+        - "2345:2345"
+    security_opt:
+        - "seccomp:unconfined"
+    command: /go/bin/dlv debug --headless --log --listen=:2345 --api-version=2
