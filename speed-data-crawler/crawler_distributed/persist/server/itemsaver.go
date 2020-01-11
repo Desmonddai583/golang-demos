@@ -8,7 +8,7 @@ import (
 	"golang-demos/crawler_distributed/rpcsupport"
 	"log"
 
-	"gopkg.in/olivere/elastic.v5"
+	"github.com/olivere/elastic/v7"
 )
 
 var port = flag.Int("port", 0, "the port for me to listen on")

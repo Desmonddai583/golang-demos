@@ -5,15 +5,16 @@ const (
 	ParseCity     = "ParseCity"
 	ParseCityList = "ParseCityList"
 	ParseProfile  = "ParseProfile"
-	NilParser     = "NilParser"
+
+	ParseCarDetail = "ParseCarDetail"
+	ParseCarList   = "ParseCarList"
+	ParseCarModel  = "ParseCarModel"
+
+	NilParser = "NilParser"
 
 	// ElasticSearch
-	ElasticIndex = "dating_profile"
-
-	// RPC Endpoints
-	ItemSaverRPC    = "ItemSaverService.Save"
-	CrawlServiceRPC = "CrawlService.Process"
+	ElasticIndex = "car_profile"
 
 	// Rate limiting
-	Qps = 20
+	Qps = 2
 )

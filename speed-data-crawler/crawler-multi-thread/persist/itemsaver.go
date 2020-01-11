@@ -6,7 +6,7 @@ import (
 	"golang-demos/crawler-multi-thread/engine"
 	"log"
 
-	elastic "gopkg.in/olivere/elastic.v5"
+	elastic "github.com/olivere/elastic/v7"
 )
 
 // ItemSaver persist items

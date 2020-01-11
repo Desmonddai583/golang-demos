@@ -2,33 +2,35 @@ package worker
 
 import (
 	"errors"
+
 	"fmt"
-	"golang-demos/crawler-multi-thread/engine"
-	"golang-demos/crawler-multi-thread/zhenai/parser"
-	"golang-demos/crawler_distributed/config"
 	"log"
+
+	"golang-demos/crawler-multi-thread/config"
+	"golang-demos/crawler-multi-thread/engine"
+	xcar "golang-demos/crawler-multi-thread/xcar/parser"
+	zhenai "golang-demos/crawler-multi-thread/zhenai/parser"
 )
 
-// SerializedParser struct
 type SerializedParser struct {
 	Name string
 	Args interface{}
 }
 
 type Request struct {
-	URL    string
+	Url    string
 	Parser SerializedParser
 }
 
 type ParseResult struct {
-	Requests []Request
 	Items    []engine.Item
+	Requests []Request
 }
 
 func SerializeRequest(r engine.Request) Request {
 	name, args := r.Parser.Serialize()
 	return Request{
-		URL: r.URL,
+		Url: r.Url,
 		Parser: SerializedParser{
 			Name: name,
 			Args: args,
@@ -36,30 +38,33 @@ func SerializeRequest(r engine.Request) Request {
 	}
 }
 
-func SerializeResult(r engine.ParseResult) ParseResult {
+func SerializeResult(
+	r engine.ParseResult) ParseResult {
 	result := ParseResult{
 		Items: r.Items,
 	}
 
 	for _, req := range r.Requests {
-		result.Requests = append(result.Requests, SerializeRequest(req))
+		result.Requests = append(result.Requests,
+			SerializeRequest(req))
 	}
-
 	return result
 }
 
-func DeserializeRequest(r Request) (engine.Request, error) {
+func DeserializeRequest(
+	r Request) (engine.Request, error) {
 	parser, err := deserializeParser(r.Parser)
 	if err != nil {
 		return engine.Request{}, err
 	}
 	return engine.Request{
-		URL:    r.URL,
+		Url:    r.Url,
 		Parser: parser,
 	}, nil
 }
 
-func DeserializeResult(r ParseResult) engine.ParseResult {
+func DeserializeResult(
+	r ParseResult) engine.ParseResult {
 	result := engine.ParseResult{
 		Items: r.Items,
 	}
@@ -67,36 +72,52 @@ func DeserializeResult(r ParseResult) engine.ParseResult {
 	for _, req := range r.Requests {
 		engineReq, err := DeserializeRequest(req)
 		if err != nil {
-			log.Printf("error deserializing request: %v", err)
+			log.Printf("error deserializing "+
+				"request: %v", err)
 			continue
 		}
-		result.Requests = append(result.Requests, engineReq)
+		result.Requests = append(result.Requests,
+			engineReq)
 	}
-
 	return result
 }
 
-func deserializeParser(p SerializedParser) (engine.Parser, error) {
+func deserializeParser(
+	p SerializedParser) (engine.Parser, error) {
 	switch p.Name {
 	case config.ParseCityList:
 		return engine.NewFuncParser(
-			parser.ParseCityList,
-			config.ParseCityList,
-		), nil
+			zhenai.ParseCityList,
+			config.ParseCityList), nil
 	case config.ParseCity:
 		return engine.NewFuncParser(
-			parser.ParseCity,
-			config.ParseCity,
-		), nil
-	case config.NilParser:
-		return engine.NilParser{}, nil
+			zhenai.ParseCity,
+			config.ParseCity), nil
+
 	case config.ParseProfile:
 		if userName, ok := p.Args.(string); ok {
-			return parser.NewProfileParser(
+			return zhenai.NewProfileParser(
 				userName), nil
+		} else {
+			return nil, fmt.Errorf("invalid "+
+				"arg: %v", p.Args)
 		}
-		return nil, fmt.Errorf("invalid arg: %v", p.Args)
+	case config.ParseCarDetail:
+		return engine.NewFuncParser(
+			xcar.ParseCarDetail,
+			config.ParseCarDetail), nil
+	case config.ParseCarModel:
+		return engine.NewFuncParser(
+			xcar.ParseCarModel,
+			config.ParseCarModel), nil
+	case config.ParseCarList:
+		return engine.NewFuncParser(
+			xcar.ParseCarList,
+			config.ParseCarList), nil
+	case config.NilParser:
+		return engine.NilParser{}, nil
 	default:
-		return nil, errors.New("unknown parser name")
+		return nil, errors.New(
+			"unknown parser name")
 	}
 }

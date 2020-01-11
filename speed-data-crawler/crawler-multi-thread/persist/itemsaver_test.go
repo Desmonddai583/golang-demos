@@ -7,7 +7,7 @@ import (
 	"golang-demos/crawler-multi-thread/model"
 	"testing"
 
-	"gopkg.in/olivere/elastic.v5"
+	"github.com/olivere/elastic/v7"
 )
 
 func TestSave(t *testing.T) {
@@ -60,11 +60,11 @@ func TestSave(t *testing.T) {
 		panic(err)
 	}
 
-	t.Logf("%s", *resp.Source)
+	t.Logf("%s", resp.Source)
 
 	// Verify result
 	var actual engine.Item
-	err = json.Unmarshal(*resp.Source, &actual)
+	err = json.Unmarshal(resp.Source, &actual)
 
 	if err != nil {
 		panic(err)

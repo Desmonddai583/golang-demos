@@ -5,7 +5,7 @@ import (
 	"golang-demos/crawler-multi-thread/persist"
 	"log"
 
-	elastic "gopkg.in/olivere/elastic.v5"
+	elastic "github.com/olivere/elastic/v7"
 )
 
 // ItemSaverService struct

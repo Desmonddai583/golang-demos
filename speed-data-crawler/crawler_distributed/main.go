@@ -4,7 +4,7 @@ import (
 	"flag"
 	"golang-demos/crawler-multi-thread/engine"
 	"golang-demos/crawler-multi-thread/scheduler"
-	"golang-demos/crawler-multi-thread/zhenai/parser"
+	"golang-demos/crawler-multi-thread/xcar/parser"
 	"golang-demos/crawler_distributed/config"
 	itemsaver "golang-demos/crawler_distributed/persist/client"
 	"golang-demos/crawler_distributed/rpcsupport"
@@ -44,7 +44,7 @@ func main() {
 
 	e.Run(engine.Request{
 		URL:    "http://www.zhenai.com/zhenghun",
-		Parser: engine.NewFuncParser(parser.ParseCityList, config.ParseCityList),
+		Parser: engine.NewFuncParser(parser.ParseCarList, config.ParseCarList),
 	})
 
 	// e.Run(engine.Request{

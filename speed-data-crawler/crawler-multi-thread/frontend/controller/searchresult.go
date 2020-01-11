@@ -15,7 +15,7 @@ import (
 	"golang-demos/crawler-multi-thread/frontend/model"
 	"golang-demos/crawler-multi-thread/frontend/view"
 
-	"gopkg.in/olivere/elastic.v5"
+	"github.com/olivere/elastic/v7"
 )
 
 type SearchResultHandler struct {
